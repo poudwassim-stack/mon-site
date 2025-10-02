@@ -2,38 +2,34 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Connexion & Inscription</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription Supabase</title>
 </head>
 <body>
-    <h1>Page d'authentification</h1>
+    <h1>Créer un compte</h1>
 
-    <div>
-        <h2>S'inscrire</h2>
-        <input type="email" id="signup-email" placeholder="Email">
-        <input type="password" id="signup-password" placeholder="Mot de passe (≥ 6 caractères)">
-        <button onclick="signup()">S'inscrire</button>
-    </div>
+    <input type="email" id="email" placeholder="Email">
+    <br><br>
+    <input type="password" id="password" placeholder="Mot de passe">
+    <br><br>
+    <button onclick="signup()">S'inscrire</button>
 
-    <div>
-        <h2>Se connecter</h2>
-        <input type="email" id="login-email" placeholder="Email">
-        <input type="password" id="login-password" placeholder="Mot de passe">
-        <button onclick="login()">Se connecter</button>
-    </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        const supabaseUrl = "https://favjvponligxyejhwysf.supabase.co";
-        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhdmp2cG9ubGlneHllamh3eXNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MjAzNDMsImV4cCI6MjA3NDk5NjM0M30.PGFRNa55yIcoCBaet2zBqws0rF6HENwcCicpF49Vryw";
-
-        const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+        // ⚡ Initialisation Supabase (après avoir chargé la librairie)
+        const supabase = supabase.createClient(
+            "https://favjvponligxyejhwysf.supabase.co",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhdmp2cG9ubGlneHllamh3eXNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MjAzNDMsImV4cCI6MjA3NDk5NjM0M30.PGFRNa55yIcoCBaet2zBqws0rF6HENwcCicpF49Vryw"
+        );
 
         async function signup() {
-            const email = document.getElementById("signup-email").value;
-            const password = document.getElementById("signup-password").value;
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
 
-            if (password.length < 6) {
-                alert("Le mot de passe doit avoir au moins 6 caractères.");
+            console.log("Inscription demandée pour:", email);
+
+            if (!email || !password) {
+                alert("Veuillez remplir tous les champs !");
                 return;
             }
 
@@ -43,25 +39,11 @@
             });
 
             if (error) {
+                console.error("Erreur inscription :", error);
                 alert("Erreur : " + error.message);
             } else {
-                alert("Inscription réussie. Vérifie ton email pour confirmer ton compte !");
-            }
-        }
-
-        async function login() {
-            const email = document.getElementById("login-email").value;
-            const password = document.getElementById("login-password").value;
-
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
-
-            if (error) {
-                alert("Erreur : " + error.message);
-            } else {
-                alert("Connexion réussie !");
+                console.log("Utilisateur créé :", data);
+                alert("Inscription réussie ! Vérifiez votre email.");
             }
         }
     </script>
