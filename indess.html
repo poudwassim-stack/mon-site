@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Page d'inscription</title>
+</head>
+<body>
+    <h1>Inscription</h1>
+
+    <label>Email :</label>
+    <input type="email" id="email" placeholder="Votre email">
+    <br><br>
+
+    <label>Mot de passe :</label>
+    <input type="password" id="password" placeholder="Mot de passe">
+    <br><br>
+
+    <button id="signupBtn">S'inscrire</button>
+
+    <script type="module">
+        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/supabase.js";
+
+        const SUPABASE_URL = "https://favjvponligxyejhwysf.supabase.co";
+        const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhdmp2cG9ubGlneHllamh3eXNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MjAzNDMsImV4cCI6MjA3NDk5NjM0M30.PGFRNa55yIcoCBaet2zBqws0rF6HENwcCicpF49Vryw";
+
+        const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        async function signup() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            if (password.length < 6) {
+                alert("Le mot de passe doit avoir plus de 6 caractères.");
+                return;
+            }
+
+            const { data, error } = await supabase.auth.signUp({ email, password });
+
+            if (error) {
+                alert("Erreur : " + error.message);
+            } else {
+                alert("Inscription réussie ! Vérifiez votre email pour confirmer.");
+            }
+        }
+
+        document.getElementById("signupBtn").addEventListener("click", signup);
+    </script>
+</body>
+</html>
+
