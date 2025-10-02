@@ -12,21 +12,26 @@
     <br><br>
     <input type="password" id="password" placeholder="Mot de passe">
     <br><br>
-    <button onclick="signup()">S'inscrire</button>
+    <button id="signupBtn">S'inscrire</button>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script>
-        // ⚡ Initialisation Supabase (après avoir chargé la librairie)
+        // ⚡ Initialisation Supabase
         const supabase = supabase.createClient(
             "https://favjvponligxyejhwysf.supabase.co",
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhdmp2cG9ubGlneHllamh3eXNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MjAzNDMsImV4cCI6MjA3NDk5NjM0M30.PGFRNa55yIcoCBaet2zBqws0rF6HENwcCicpF49Vryw"
         );
 
+        // ⚡ Événement click correctement attaché
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("signupBtn").addEventListener("click", signup);
+        });
+
         async function signup() {
             const email = document.getElementById("email").value;
             const password = document.getElementById("password").value;
 
-            console.log("Inscription demandée pour:", email);
+            console.log("Inscription demandée :", email);
 
             if (!email || !password) {
                 alert("Veuillez remplir tous les champs !");
