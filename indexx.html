@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription Supabase</title>
+</head>
+<body>
+    <h1>Créer un compte</h1>
+
+    <input type="email" id="email" placeholder="Email">
+    <br><br>
+    <input type="password" id="password" placeholder="Mot de passe">
+    <br><br>
+    <button id="signupBtn">S'inscrire</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        // ⚡ Initialisation Supabase
+        const supabase = supabase.createClient(
+            "https://favjvponligxyejhwysf.supabase.co",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZhdmp2cG9ubGlneHllamh3eXNmIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MjAzNDMsImV4cCI6MjA3NDk5NjM0M30.PGFRNa55yIcoCBaet2zBqws0rF6HENwcCicpF49Vryw"
+        );
+
+        // ⚡ Événement click correctement attaché
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("signupBtn").addEventListener("click", signup);
+        });
+
+        async function signup() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            console.log("Inscription demandée :", email);
+
+            if (!email || !password) {
+                alert("Veuillez remplir tous les champs !");
+                return;
+            }
+
+            const { data, error } = await supabase.auth.signUp({
+                email: email,
+                password: password
+            });
+
+            if (error) {
+                console.error("Erreur inscription :", error);
+                alert("Erreur : " + error.message);
+            } else {
+                console.log("Utilisateur créé :", data);
+                alert("Inscription réussie ! Vérifiez votre email.");
+            }
+        }
+    </script>
+</body>
+</html>
